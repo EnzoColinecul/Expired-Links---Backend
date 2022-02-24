@@ -1,14 +1,24 @@
 const cors = require('cors');
 const express = require('express');
+const { DbConnection } = require('../database/config');
 
 class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
 
+    this.DbConnect();
+
     this.middlewares();
 
     this.routes();
+  }
+
+  // DB connection
+
+  // eslint-disable-next-line class-methods-use-this
+  async DbConnect() {
+    await DbConnection();
   }
 
   middlewares() {
