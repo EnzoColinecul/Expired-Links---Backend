@@ -1,8 +1,9 @@
 const { Router } = require('express');
-const { linkPost } = require('../controllers/link.controller');
+const { linkPost, linkGet } = require('../controllers/link.controller');
 
 const router = Router();
 
-router.post('/generate', linkPost);
+router.post('/link', linkPost)
+  .get('/link/:url', linkGet);
 
 module.exports = router;

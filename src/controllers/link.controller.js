@@ -7,6 +7,13 @@ const linkPost = (req, res = response) => {
   });
 };
 
+const linkGet = (req, res = response) => {
+  res.json({
+    msg: 'este es el mensaje',
+  });
+};
+
 module.exports = {
   linkPost,
+  linkGet,
 };
