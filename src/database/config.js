@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const client = new MongoClient('mongodb+srv://enzocolinecul:Whatdafaq@97@cluster0.klhfi.mongodb.net/linksDB');
+const client = new MongoClient(process.env.MONGODB_CNN);
 
 const DbConnection = async () => {
   try {

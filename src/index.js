@@ -1,6 +1,6 @@
 require('dotenv-flow').config();
 
-const Server = require('./models/index');
+const Server = require('./models/server');
 
 const server = new Server();
 

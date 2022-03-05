@@ -14,8 +14,6 @@ class Server {
     this.routes();
   }
 
-  // DB connection
-
   // eslint-disable-next-line class-methods-use-this
   async DbConnect() {
     await DbConnection();
