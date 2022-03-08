@@ -13,4 +13,5 @@ const DbConnection = async () => {
 
 module.exports = {
   DbConnection,
+  client,
 };

@@ -1,9 +1,25 @@
+const { request } = require('express');
 const { response } = require('express');
+const { client } = require('../database/config');
+const { random } = require('../helpers/index.helpers');
 
-const linkPost = (req, res = response) => {
+const collection = client.db('links').collection('data');
+
+const linkPost = async (req = request, res = response) => {
+  const { information } = req.body;
+
+  const url = random(16);
+
+  await collection.insertOne({
+    url,
+    information,
+    expireAt: '1',
+  });
+
   res.json({
     status: 'ok',
-    url: '1aWc13Adf',
+    information,
+    url,
   });
 };
 
