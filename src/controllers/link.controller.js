@@ -1,31 +1,46 @@
 const { request } = require('express');
 const { response } = require('express');
+const { validationResult } = require('express-validator');
 const { client } = require('../database/config');
-const { random } = require('../helpers/index.helpers');
+const { random, timeSelection } = require('../helpers/index.helpers');
 
 const collection = client.db('links').collection('data');
 
 const linkPost = async (req = request, res = response) => {
-  const { information } = req.body;
+  const { information, time } = req.body;
+  const errors = validationResult(req);
 
-  const url = random(16);
+  try {
+    if (!errors.isEmpty()) return res.status(400).json(errors);
 
-  await collection.insertOne({
-    url,
-    information,
-    expireAt: '1',
-  });
+    const timeResult = await timeSelection(time);
+    const url = random(16);
 
-  res.json({
-    status: 'ok',
-    information,
-    url,
-  });
+    await collection.insertOne({
+      url,
+      information,
+      expireAt: new Date(timeResult),
+    });
+
+    return res.json({
+      status: 'ok',
+      information,
+      url,
+    });
+  } catch (err) {
+    res.status(400).json({ err });
+  }
 };
 
-const linkGet = (req, res = response) => {
-  res.json({
-    msg: 'este es el mensaje',
+const linkGet = async (req = request, res = response) => {
+  const { params } = req;
+
+  const result = await collection.findOne(params);
+
+  if (!result) return res.status(400).json({ error: 'The URL not exist' });
+
+  return res.json({
+    result,
   });
 };
 
